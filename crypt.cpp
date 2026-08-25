@@ -5,8 +5,10 @@
 #include <vector>
 #include <set>
 #include <sstream>
-std::string infile = "";
-std::string outfile = "";
+std::string infile = ""; //Input File
+std::string outfile = ""; //Output File
+std::string charset; //Charset for replacement
+std::string key_i; //Key Itorator
 const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 inline bool file_exists (const std::string& name) {
 	//This function was taken from stack overflow
@@ -27,19 +29,13 @@ inline std::vector<std::string> split (const std::string split_string, char sepo
 	}
 	return seglist;
 }
-	
-std::string input_key() {
-	while (true) {
-		std::string key_cin;
-		std::cout << "Key: " << std::flush;
-		std::cin >> key_cin;
-		//TODO: split string
-	}
-}	
 
 bool validate_charset(std::string charset) {
 	// This verifies that the charset is valid
 	if (charset.length() != 62) {
+		return false;
+	}
+	if (charset == BASE_CHARSET) {
 		return false;
 	}
 	std::set<char> seen = {};
@@ -52,6 +48,35 @@ bool validate_charset(std::string charset) {
 	}
 	return true;
 }
+
+void input_key() {
+	while (true) {
+		std::string key_cin;
+		std::cout << "Key: " << std::flush;
+		std::cin >> key_cin;
+		std::string unvalidated_charset; //Charset for encryption
+		std::string str_unvalidated_key_i; //Key Itorater Value
+		{
+			std::vector<std::string> temp = split(key_cin, ':');
+			unvalidated_charset = temp[0];
+			str_unvalidated_key_i = temp[1];
+		}
+		if (validate_charset(unvalidated_charset)) {
+			try {
+				int check = std::stoi(str_unvalidated_key_i);
+				charset = unvalidated_charset;
+				key_i = check;
+				break;
+			} catch (const std::out_of_range& e) {
+				std::cout << "Itorator too big!\nPlease use a smaller one.\n";
+			}
+		} else {
+			std::cout << "Key is Invalid!\n";
+		}
+			
+	}
+	return;
+}	
 
 std::vector<std::string> read_file(std::string fname) {
 	/* Reads file and returns a vector of strings
