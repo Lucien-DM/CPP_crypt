@@ -77,6 +77,19 @@ void input_key() {
 	return;
 }	
 
+unsigned int char_counter(const std::vector<std::string>& file, int key_i) {
+	/* recreates the final itorator */
+	unsigned int count = 0;
+	for (const std::string& line : file) {
+		for (char c : line) {
+			unsigned int temp;
+			temp = count + key_i;
+			count = temp;
+		}
+	}
+	return count;
+}
+
 char letter_replacer(char l, unsigned int iterator) {
 	size_t index = BASE_CHARSET.find(l);
 	if (index == std::string::npos) {
