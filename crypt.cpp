@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <vector>
 #include <set>
+#include <sstream>
 std::string infile = "";
 std::string outfile = "";
 const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -13,6 +14,28 @@ inline bool file_exists (const std::string& name) {
 	std::ifstream f(name.c_str());
 	return f.good();
 }
+
+inline std::vector<std::string> split (const std::string split_string, char seporator) {
+	//Code taken from stack overflow
+	//Splits a string into a vector of strings by a seporator char
+	std::string segment;
+	std::vector<std::string> seglist;
+	std::stringstream ss(split_string);
+	while(std::getline(ss, segment, seporator))
+	{
+	   seglist.push_back(segment);
+	}
+	return seglist;
+}
+	
+std::string input_key() {
+	while (true) {
+		std::string key_cin;
+		std::cout << "Key: " << std::flush;
+		std::cin >> key_cin;
+		//TODO: split string
+	}
+}	
 
 bool validate_charset(std::string charset) {
 	// This verifies that the charset is valid
