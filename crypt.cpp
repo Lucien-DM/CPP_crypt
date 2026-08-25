@@ -72,11 +72,30 @@ void input_key() {
 			}
 		} else {
 			std::cout << "Key is Invalid!\n";
-		}
-			
+		}		
 	}
 	return;
 }	
+
+char letter_replacer(char l, unsigned int iterator) {
+	size_t index = BASE_CHARSET.find(l);
+	if (index == std::string::npos) {
+        	return l;  // not in charset, passthrough
+	}
+	unsigned int encrypted_index = (index + iterator) % 62 ;
+	char encrypted_l = charset[encrypted_index];
+	return encrypted_l;
+}
+
+char letter_dereplacer(char encrypted_l, unsigned int iterator) {
+    size_t index = charset.find(encrypted_l);
+    if (index == std::string::npos) {
+        return encrypted_l;  // not in charset, passthrough
+    }
+    unsigned int original_index = (index - iterator % 62 + 62) % 62;
+    char original_l = BASE_CHARSET[original_index];
+    return original_l;
+}
 
 std::vector<std::string> read_file(std::string fname) {
 	/* Reads file and returns a vector of strings
