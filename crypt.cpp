@@ -120,6 +120,15 @@ std::string line_encrypt(std::string& og_line) {
 	return encrypted_line;
 }
 
+std::vector<std::string> file_encrypt(std::vector<std::string>& plain_file) {
+	std::vector<std::string> encrypted_file;
+	for (std::string& line : plain_file) {
+		encrypted_file.push_back(line_encrypt(line));
+		line = ""; //Clear the string for memory management perposes
+	}
+	return encrypted_file;
+}
+
 std::vector<std::string> read_file(std::string fname) {
 	/* Reads file and returns a vector of strings
 	 * Does not validate if file exists */
