@@ -120,6 +120,15 @@ std::string line_encrypt(std::string& og_line) {
 	return encrypted_line;
 }
 
+std::string line_decrypt(std::string& encrypted_line) {
+	std::string og_line;
+	for (char c : encrypted_line) {
+		iterate -= key_i;
+		og_line += (letter_replacer(c, iterate));
+	}
+	return og_line;
+}
+
 std::vector<std::string> file_encrypt(std::vector<std::string>& plain_file) {
 	std::vector<std::string> encrypted_file;
 	for (std::string& line : plain_file) {
