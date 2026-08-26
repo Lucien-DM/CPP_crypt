@@ -8,7 +8,8 @@
 std::string infile = ""; //Input File
 std::string outfile = ""; //Output File
 std::string charset; //Charset for replacement
-std::string key_i; //Key Itorator
+int key_i; //Key Itorator
+unsigned int iterate; //iteration value of the charset
 const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 inline bool file_exists (const std::string& name) {
 	//This function was taken from stack overflow
@@ -108,6 +109,15 @@ char letter_dereplacer(char encrypted_l, unsigned int iterator) {
     unsigned int original_index = (index - iterator % 62 + 62) % 62;
     char original_l = BASE_CHARSET[original_index];
     return original_l;
+}
+
+std::string line_encrypt(std::string& og_line) {
+	std::string encrypted_line;
+	for (char c : og_line) {
+		encrypted_line += (letter_replacer(c, iterate));
+		iterate += key_i;
+	}
+	return encrypted_line;
 }
 
 std::vector<std::string> read_file(std::string fname) {
