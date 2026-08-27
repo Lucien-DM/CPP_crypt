@@ -8,7 +8,8 @@
 std::string infile = ""; //Input File
 std::string outfile = ""; //Output File
 std::string charset; //Charset for replacement
-std::string key_i; //Key Itorator
+int key_i; //Key Itorator
+unsigned int iterate; //iteration value of the charset
 const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 inline bool file_exists (const std::string& name) {
 	/* This function was taken from stack overflow
@@ -82,6 +83,19 @@ void input_key() {
 	return;
 }	
 
+unsigned int char_counter(const std::vector<std::string>& file, int key_i) {
+	/* recreates the final itorator */
+	unsigned int count = 0;
+	for (const std::string& line : file) {
+		for (char c : line) {
+			unsigned int temp;
+			temp = count + key_i;
+			count = temp;
+		}
+	}
+	return count;
+}
+
 char letter_replacer(char l, unsigned int iterator) {
 	/* input the character, and iterator, and then replace the character with the appropriate encrypted char
 	 * Input from args, output as return value
@@ -104,6 +118,33 @@ char letter_dereplacer(char encrypted_l, unsigned int iterator) {
 	unsigned int original_index = (index - iterator % 62 + 62) % 62;
 	char original_l = BASE_CHARSET[original_index];
 	return original_l;
+}
+
+std::string line_encrypt(std::string& og_line) {
+	std::string encrypted_line;
+	for (char c : og_line) {
+		encrypted_line += (letter_replacer(c, iterate));
+		iterate += key_i;
+	}
+	return encrypted_line;
+}
+
+std::string line_decrypt(std::string& encrypted_line) {
+	std::string og_line;
+	for (char c : encrypted_line) {
+		iterate -= key_i;
+		og_line += (letter_replacer(c, iterate));
+	}
+	return og_line;
+}
+
+std::vector<std::string> file_encrypt(std::vector<std::string>& plain_file) {
+	std::vector<std::string> encrypted_file;
+	for (std::string& line : plain_file) {
+		encrypted_file.push_back(line_encrypt(line));
+		line = ""; //Clear the string for memory management perposes
+	}
+	return encrypted_file;
 }
 
 std::vector<std::string> read_file(std::string fname) {
