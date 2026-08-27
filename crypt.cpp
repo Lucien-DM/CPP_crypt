@@ -50,6 +50,11 @@ bool validate_charset(std::string charset) {
 }
 
 void input_key() {
+	/* Input the key from the user,
+	 * Validate it, and then store as a global var
+	 * if not valid, repeat input until it is
+	 * store charset as std::string charset
+	 * store key itrator as int key_i */
 	while (true) {
 		std::string key_cin;
 		std::cout << "Key: " << std::flush;
