@@ -121,6 +121,8 @@ char letter_dereplacer(char encrypted_l, unsigned int iterator) {
 }
 
 std::string line_encrypt(std::string& og_line) {
+	/* Encrypts the whole line inputted as std::string
+	 * Also ticks over the cypher shift */   
 	std::string encrypted_line;
 	for (char c : og_line) {
 		encrypted_line += (letter_replacer(c, iterate));
@@ -130,6 +132,7 @@ std::string line_encrypt(std::string& og_line) {
 }
 
 std::string line_decrypt(std::string& encrypted_line) {
+	/* The inverse of line_encrypt */
 	std::string og_line;
 	for (char c : encrypted_line) {
 		iterate -= key_i;
@@ -139,6 +142,9 @@ std::string line_decrypt(std::string& encrypted_line) {
 }
 
 std::vector<std::string> file_encrypt(std::vector<std::string>& plain_file) {
+	/* takes the file stored in memory as a std::vector<std::string>
+	 * and wraps other functions to encrypt it
+	 * WARN: clears the vector passed to it as a means of memory management */
 	std::vector<std::string> encrypted_file;
 	for (std::string& line : plain_file) {
 		encrypted_file.push_back(line_encrypt(line));
