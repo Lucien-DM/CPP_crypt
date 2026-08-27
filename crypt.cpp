@@ -11,15 +11,15 @@ std::string charset; //Charset for replacement
 std::string key_i; //Key Itorator
 const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 inline bool file_exists (const std::string& name) {
-	//This function was taken from stack overflow
-	//checks existence of a file in the FS
+	/* This function was taken from stack overflow
+	 * checks existence of a file in the FS */
 	std::ifstream f(name.c_str());
 	return f.good();
 }
 
 inline std::vector<std::string> split (const std::string split_string, char seporator) {
-	//Code taken from stack overflow
-	//Splits a string into a vector of strings by a seporator char
+	/* Code taken from stack overflow
+	 * Splits a string into a vector of strings by a seporator char */
 	std::string segment;
 	std::vector<std::string> seglist;
 	std::stringstream ss(split_string);
@@ -31,7 +31,7 @@ inline std::vector<std::string> split (const std::string split_string, char sepo
 }
 
 bool validate_charset(std::string charset) {
-	// This verifies that the charset is valid
+	/* This verifies that the charset is valid */
 	if (charset.length() != 62) {
 		return false;
 	}
