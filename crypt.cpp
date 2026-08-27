@@ -1,3 +1,8 @@
+/* GPL3 Licenced, Copyleft
+ * This is a toy encryption system, based on a shifting replacement cypher.
+ * This is not designed for legitimate Security applications and NO WARRENTY is supplied. */
+/* Global TODOs here */
+//TODO: Split this file into multiple source files
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,7 +15,7 @@ std::string outfile = ""; //Output File
 std::string charset; //Charset for replacement
 int key_i; //Key Itorator
 unsigned int iterate; //iteration value of the charset
-const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+const std::string BASE_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; //This must never change as it will break decryption from earlier versions
 inline bool file_exists (const std::string& name) {
 	/* This function was taken from stack overflow
 	 * checks existence of a file in the FS */
@@ -148,9 +153,21 @@ std::vector<std::string> file_encrypt(std::vector<std::string>& plain_file) {
 	std::vector<std::string> encrypted_file;
 	for (std::string& line : plain_file) {
 		encrypted_file.push_back(line_encrypt(line));
-		line = ""; //Clear the string for memory management perposes
+		line.clear(); //Destructive! Clears line from vector to free memory
 	}
 	return encrypted_file;
+}
+
+std::vector<std::string> file_decrypt(std::vector<std::string>& encrypted_file) {
+	/* Inverse of file_encrypt
+	 * WARN: is destructive to input std::vector<std::string>& encrypted_file
+	 * for sake of memory management */
+	std::vector<std::string> plain_file;
+	for (std::string& line : encrypted_file) {
+		plain_file.push_back(line_decrypt(line));
+		line.clear(); //Destructive! Clears line from the vector to free memory
+	}
+	return plain_file;
 }
 
 std::vector<std::string> read_file(std::string fname) {
@@ -158,7 +175,7 @@ std::vector<std::string> read_file(std::string fname) {
 	 * Does not validate if file exists */
 	std::vector<std::string> file_contents = {};
 	std::ifstream InputFile(fname); //Opens file - Remember to CLOSE
-	std::string line = "";
+	std::string line = ""; //declare and Init line var
 	while (getline (InputFile, line)) {
 		file_contents.push_back(line);
 	}
@@ -178,4 +195,9 @@ int main(int argc, char *argv[]){
 		std::cout << '"' << infile << '"' << " Does not exist!\n";
 	}
 	outfile = argv[2]; //Second arg is output file
+	//TODO: Check mode
+	//TODO: Get key
+	//TODO: Read file into memory
+	//TODO: Decrypt file
+	//TODO: Write the file out again.
 }
