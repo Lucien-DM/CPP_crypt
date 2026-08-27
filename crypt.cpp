@@ -96,13 +96,14 @@ char letter_replacer(char l, unsigned int iterator) {
 }
 
 char letter_dereplacer(char encrypted_l, unsigned int iterator) {
-    size_t index = charset.find(encrypted_l);
-    if (index == std::string::npos) {
-        return encrypted_l;  // not in charset, passthrough
-    }
-    unsigned int original_index = (index - iterator % 62 + 62) % 62;
-    char original_l = BASE_CHARSET[original_index];
-    return original_l;
+	/* Inverse operation to letter_replacer */
+	size_t index = charset.find(encrypted_l);
+	if (index == std::string::npos) {
+		return encrypted_l;  // not in charset, passthrough
+	}
+	unsigned int original_index = (index - iterator % 62 + 62) % 62;
+	char original_l = BASE_CHARSET[original_index];
+	return original_l;
 }
 
 std::vector<std::string> read_file(std::string fname) {
