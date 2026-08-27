@@ -83,6 +83,9 @@ void input_key() {
 }	
 
 char letter_replacer(char l, unsigned int iterator) {
+	/* input the character, and iterator, and then replace the character with the appropriate encrypted char
+	 * Input from args, output as return value
+	 * If not in BASE_CHARSET constant, return char l */
 	size_t index = BASE_CHARSET.find(l);
 	if (index == std::string::npos) {
         	return l;  // not in charset, passthrough
