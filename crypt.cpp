@@ -3,6 +3,7 @@
  * This is not designed for legitimate Security applications and NO WARRENTY is supplied. */
 /* Global TODOs here */
 //TODO: Split this file into multiple source files
+//TODO: Patch out the global comments
 #include <iostream>
 #include <fstream>
 #include <string>
