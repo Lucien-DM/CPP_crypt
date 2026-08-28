@@ -11,6 +11,7 @@
 #include <vector>
 #include <set>
 #include <sstream>
+#include <tuple>
 std::string infile = ""; //Input File
 std::string outfile = ""; //Output File
 std::string charset; //Charset for replacement
@@ -56,18 +57,19 @@ bool validate_charset(std::string charset) {
 	return true;
 }
 
-void input_key() {
+std::tuple<std::string, int> input_key() {
 	/* Input the key from the user,
-	 * Validate it, and then store as a global var
+	 * Validate it, and then return as an std::tuple
 	 * if not valid, repeat input until it is
 	 * store charset as std::string charset
 	 * store key itrator as int key_i */
+	std::string unvalidated_charset; //Charset for encryption
+	std::string str_unvalidated_key_i; //Key Itorater Value
+	int key_i;
 	while (true) {
 		std::string key_cin;
 		std::cout << "Key: " << std::flush;
 		std::cin >> key_cin;
-		std::string unvalidated_charset; //Charset for encryption
-		std::string str_unvalidated_key_i; //Key Itorater Value
 		{
 			std::vector<std::string> temp = split(key_cin, ':');
 			unvalidated_charset = temp[0];
@@ -75,9 +77,7 @@ void input_key() {
 		}
 		if (validate_charset(unvalidated_charset)) {
 			try {
-				int check = std::stoi(str_unvalidated_key_i);
-				charset = unvalidated_charset;
-				key_i = check;
+				key_i = std::stoi(str_unvalidated_key_i);
 				break;
 			} catch (const std::out_of_range& e) {
 				std::cout << "Itorator too big!\nPlease use a smaller one.\n";
@@ -86,7 +86,7 @@ void input_key() {
 			std::cout << "Key is Invalid!\n";
 		}		
 	}
-	return;
+	return std::make_tuple(unvalidated_charset, key_i);
 }	
 
 unsigned int char_counter(const std::vector<std::string>& file, int key_i) {
